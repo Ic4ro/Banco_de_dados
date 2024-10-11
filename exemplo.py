@@ -1,4 +1,4 @@
-import os
+import os 
 from sqlalchemy import create_engine, Column, String, Integer
 from sqlalchemy.orm import sessionmaker, declarative_base
 
@@ -12,57 +12,32 @@ session = Session()
 # Criando tabela.
 Base = declarative_base()
 
-class Usuario(Base):
-    # Definindo nome da tabela.
-    __tablename__ = "usuarios"
+class Aluno(Base): 
+    # Definindo atributos da tabela.
+    __tablename__ = "alunos"
 
     # Definindo atributos da tabela.
-    id = Column("id", Integer, primary_key=True, autoincrement=True)
+    ra = Column("R.A.", Integer, primary_key=True, autoincrement=True)
     nome = Column("nome", String)
+    idade = Column("idade", String)
     email = Column("email", String)
-    senha = Column("senha", String)
 
     # Definindo atributos da classe.
-    def __init__(self, nome: str, email: str, senha: str):
+    def __init__(self, nome: str, email: str, idade: str) -> None:
         self.nome = nome
+        self.idade = idade
         self.email = email
-        self.senha = senha
 
-# Criando tabela no banco de dados.
+# Criando tabela banco de dados.
 Base.metadata.create_all(bind=db)
 
-os.system("cls || clear")
-
-# Salvar no banco de dados.
-# usuario = Usuario("Marta", "marta@gmail.com", "123")
-# usuario = Usuario(senha="123", nome="José", email="jose@gmail.com")
-
-for i in range(2):
-    nome = input("Digite seu nome: ")
-    email = input("Digite seu e-mail: ")
-    senha=  input("Digite sua senha: ")
-
-    usuario =  Usuario(senha=senha, nome=nome, email=email)
-    session.add(usuario)
-    session.commit()
-    print()
-
-# Mostrando conteúdo do banco de dados.
-print("\nListando usuários no banco de dados.")
-lista_usuarios = session.query(Usuario).all()
-
-for usuario in lista_usuarios:
-    print(f"{usuario.id} - {usuario.nome} - {usuario.email}")
-
-# Deletando um usuário.
-usuario = session.query(Usuario).filter_by(email ="joao@gmail.com").first()
-session.delete(usuario)
+#  Salvar no banco de dados.
+aluno = Aluno(nome="Icaro", email="Icaro@gmail.com", idade="19")
+session.add(aluno)
 session.commit()
-print("\nUsuário deletado com sucesso.")
 
 # Mostrando conteúdo do banco de dados.
-print("\nListando usuários no banco de dados.")
-lista_usuarios = session.query(Usuario).all()
+lista_alunos = session.query(Aluno).all()
 
-for usuario in lista_usuarios:
-    print(f"{usuario.id} - {usuario.nome} - {usuario.email}")
+for aluno in lista_alunos: 
+    print(f"R.A.: {aluno.ra} - Nome: {aluno.nome} - E-mail: {aluno.email} - Idade: {aluno.idade}")
